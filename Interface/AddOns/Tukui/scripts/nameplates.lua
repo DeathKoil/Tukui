@@ -1,6 +1,6 @@
 -- credits : Caellian - CaelNamePlates !
 
-if not TukuiDB["nameplate"].enable == true then return end
+--if not TukuiDB["nameplate"].enable == true then return end
 
 local tNamePlates = CreateFrame("Frame", nil, UIParent)
 tNamePlates:SetScript("OnEvent", function(self, event, ...) self[event](self, ...) end)
@@ -288,7 +288,7 @@ end
 
 local numKids = 0
 local lastUpdate = 0
-tNamePlates.eventFrame:SetScript("OnUpdate", function(self, elapsed)
+tNamePlates:SetScript("OnUpdate", function(self, elapsed)
 	lastUpdate = lastUpdate + elapsed
 
 	if lastUpdate > 0.05 then

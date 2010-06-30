@@ -163,6 +163,9 @@ TukuiDB["tooltip"] = {
 	["hidecombat"] = false, -- hide bottom-right tooltip when in combat
 	["hidebuttons"] = false, -- always hide action bar buttons tooltip.
 	["hideuf"] = false, -- hide tooltip on unitframes
+	["tooltipX"] = 0, -- X coord for the tooltip location
+	["tooltipY"] = 170, -- Y coord for the tooltip location
+	["AttachBagFrame"] = true, --true will put the tooltip at the top of the bag frame when bags are open. False will leave the tooltip in its location when the bags are opened
 }
 
 TukuiDB["combatfont"] = {
