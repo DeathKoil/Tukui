@@ -139,4 +139,3 @@ hooksecurefunc("FCF_OpenTemporaryWindow", TukuiDB.TempChatSkin)
 
 
 
-

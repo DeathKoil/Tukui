@@ -1,6 +1,6 @@
 if not TukuiDB["unitframes"].enable == true then return end
 
-local fontlol = TukuiDB["media"].uffont
+local fontlol = TukuiDB["media"].font
 local normTex = TukuiDB["media"].normTex
 
 local _, class = UnitClass("player")
@@ -233,7 +233,7 @@ local function CreateStyle(self, unit)
 	self.Health = CreateFrame('StatusBar', nil, self)
 	self.Health:SetPoint("TOPLEFT")
 	self.Health:SetPoint("TOPRIGHT")
-	self.Health:SetHeight(TukuiDB:Scale(28*TukuiDB["unitframes"].gridscale*TukuiDB.raidscale))
+	self.Health:SetHeight(TukuiDB:Scale(24*TukuiDB["unitframes"].gridscale*TukuiDB.raidscale))
 	if TukuiDB["unitframes"].gridhealthvertical == true then
 		self.Health:SetOrientation('VERTICAL')
 	end
@@ -263,12 +263,12 @@ local function CreateStyle(self, unit)
 		
 	self.Health.value = self.Health:CreateFontString(nil, "OVERLAY")
 	self.Health.value:SetPoint("CENTER", self.Health, 0, 1)
-	self.Health.value:SetFont(fontlol, 11*TukuiDB["unitframes"].gridscale*TukuiDB.raidscale, "THINOUTLINE")
+	self.Health.value:SetFont(fontlol, 14*TukuiDB["unitframes"].gridscale*TukuiDB.raidscale, "THINOUTLINE")
 	self.Health.value:SetTextColor(1,1,1)
 	self.Health.value:SetShadowOffset(1, -1)
 	
 	self.Power = CreateFrame("StatusBar", nil, self)
-	self.Power:SetHeight(3*TukuiDB["unitframes"].gridscale*TukuiDB.raidscale)
+	self.Power:SetHeight(7*TukuiDB["unitframes"].gridscale*TukuiDB.raidscale)
 	self.Power:SetPoint("TOPLEFT", self.Health, "BOTTOMLEFT", 0, -TukuiDB.mult)
 	self.Power:SetPoint("TOPRIGHT", self.Health, "BOTTOMRIGHT", 0, -TukuiDB.mult)
 	self.Power:SetStatusBarTexture(normTex)
@@ -308,7 +308,7 @@ local function CreateStyle(self, unit)
 				
 	self.Name = self.Health:CreateFontString(nil, "OVERLAY")
     self.Name:SetPoint("CENTER", self.np, "CENTER", 0, TukuiDB.mult)
-	self.Name:SetFont(fontlol, 12*TukuiDB["unitframes"].gridscale*TukuiDB.raidscale)
+	self.Name:SetFont(fontlol, 14*TukuiDB["unitframes"].gridscale*TukuiDB.raidscale)
 	self:Tag(self.Name, "[GetNameColor][NameShort]")
 		
     if TukuiDB["unitframes"].aggro == true then
@@ -363,14 +363,17 @@ oUF:SetActiveStyle('hRaid40')
 local raid = {}
 for i = 1, TukuiDB["unitframes"].gridmaxgroup do
 	local raidgroup = oUF:Spawn('header', 'oUF_Group'..i)
-	raidgroup:SetManyAttributes('groupFilter', tostring(i), 'showRaid', true, 'xOffset', TukuiDB:Scale(4*TukuiDB["unitframes"].gridscale), "point", "LEFT")
+	raidgroup:SetAttribute("showPlayer", TukuiDB["unitframes"].showplayerinparty)
+	raidgroup:SetManyAttributes('groupFilter', tostring(i), 'showRaid', true, 'showSolo', true, 'showParty', true, 'xOffset', TukuiDB:Scale(4*TukuiDB["unitframes"].gridscale), "point", "LEFT")
 	raidgroup:SetFrameStrata('BACKGROUND')	
 	table.insert(raid, raidgroup)
+	
 	if(i == 1) then
 		raidgroup:SetPoint(TukuiDB["unitframes"].gridposZ, UIParent, TukuiDB["unitframes"].gridposZ, TukuiDB["unitframes"].gridposX, TukuiDB["unitframes"].gridposY*TukuiDB.raidscale)
 	else
 		raidgroup:SetPoint('TOPLEFT', raid[i-1], 'BOTTOMLEFT', 0, -4)
 	end
+	
 	local raidToggle = CreateFrame("Frame")
 	raidToggle:RegisterEvent("PLAYER_LOGIN")
 	raidToggle:RegisterEvent("RAID_ROSTER_UPDATE")
@@ -382,18 +385,16 @@ for i = 1, TukuiDB["unitframes"].gridmaxgroup do
 	else
 		self:UnregisterEvent("PLAYER_REGEN_ENABLED")
 		local numraid = GetNumRaidMembers()
-		if TukuiDB["unitframes"].gridonly == true then
-			if numraid < 6 then
-				raidgroup:Hide()
-			else
-				raidgroup:Show()
-			end
-		else
-			if numraid < 16 then --16
-				raidgroup:Hide()
-			else
-				raidgroup:Show()
-			end
+		local numparty = GetNumPartyMembers()
+		
+		if TukuiDB["unitframes"].showgridinraid == true and numraid > 0 then 
+			raidgroup:Show()
+		elseif TukuiDB["unitframes"].showgridinparty == true and numparty > 0 and numraid == 0 then
+			raidgroup:Show()
+		elseif TukuiDB["unitframes"].showgridwhilesolo == true and numparty == 0 and numraid == 0 then
+			raidgroup:Show()
+		else										--
+			raidgroup:Hide()
 		end
 	end
 end)

@@ -1,4 +1,5 @@
 if not TukuiDB["unitframes"].enable == true then return end
+if not TukuiDB["unitframes"].partyframesinparty == true then return end
 
 local fontlol = TukuiDB["media"].uffont
 local normTex = TukuiDB["media"].normTex

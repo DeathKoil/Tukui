@@ -1,7 +1,7 @@
 -- ACTION BAR PANEL
-TukuiDB.buttonsize = TukuiDB:Scale(27)
+TukuiDB.buttonsize = TukuiDB:Scale(TukuiDB["actionbar"].actionbarbuttonsize)
 TukuiDB.buttonspacing = TukuiDB:Scale(4)
-TukuiDB.petbuttonsize = TukuiDB:Scale(29)
+TukuiDB.petbuttonsize = TukuiDB:Scale(TukuiDB["actionbar"].petbarbuttonsize)
 TukuiDB.petbuttonspacing = TukuiDB:Scale(4)
 
 local barbg = CreateFrame("Frame", "TukuiActionBarBackground", UIParent)
@@ -14,7 +14,7 @@ if TukuiDB.lowversion == true then
 		barbg:SetHeight(TukuiDB.buttonsize + (TukuiDB.buttonspacing * 2))
 	end
 else
-	barbg:SetWidth((TukuiDB.buttonsize * 22) + (TukuiDB.buttonspacing * 23))
+	barbg:SetWidth((TukuiDB.buttonsize * TukuiDB["actionbar"].actionbarbuttons) + (TukuiDB.buttonspacing * (TukuiDB["actionbar"].actionbarbuttons + 1)))
 	if TukuiDB["actionbar"].bottomrows == 2 then
 		barbg:SetHeight((TukuiDB.buttonsize * 2) + (TukuiDB.buttonspacing * 3))
 	else
@@ -125,16 +125,12 @@ if TukuiDB["actionbar"].enable == true or not (IsAddOnLoaded("Dominos") or IsAdd
 	end
 
 	local petbg = CreateFrame("Frame", "TukuiPetActionBarBackground", PetActionButton1)
-	if TukuiDB["actionbar"].rightbars > 0 then
-		TukuiDB:CreatePanel(petbg, TukuiDB.petbuttonsize + (TukuiDB.petbuttonspacing * 2), (TukuiDB.petbuttonsize * 10) + (TukuiDB.petbuttonspacing * 11), "RIGHT", barbgr, "LEFT", TukuiDB:Scale(-6), 0)
-	else
-		TukuiDB:CreatePanel(petbg, TukuiDB.petbuttonsize + (TukuiDB.petbuttonspacing * 2), (TukuiDB.petbuttonsize * 10) + (TukuiDB.petbuttonspacing * 11), "RIGHT", UIParent, "RIGHT", TukuiDB:Scale(-6), TukuiDB:Scale(-13.5))
-	end
 
-	local ltpetbg1 = CreateFrame("Frame", "TukuiLineToPetActionBarBackground", petbg)
-	TukuiDB:CreatePanel(ltpetbg1, 30, 265, "TOPLEFT", petbg, "TOPRIGHT", 0, TukuiDB:Scale(-33))
-	ltpetbg1:SetFrameLevel(0)
-	ltpetbg1:SetAlpha(.8)
+	if TukuiDB["actionbar"].verticlepetbar then
+		TukuiDB:CreatePanel(petbg, TukuiDB.petbuttonsize + (TukuiDB.petbuttonspacing * 2), (TukuiDB.petbuttonsize * 10) + (TukuiDB.petbuttonspacing * 11), TukuiDB["actionbar"].petbarZ, UIParent, TukuiDB["actionbar"].petbarZ, TukuiDB["actionbar"].petbarX, TukuiDB["actionbar"].petbarY)
+	else
+		TukuiDB:CreatePanel(petbg, (TukuiDB.petbuttonsize * 10) + (TukuiDB.petbuttonspacing * 11), TukuiDB.petbuttonsize + (TukuiDB.petbuttonspacing * 2), TukuiDB["actionbar"].petbarZ, UIPARENT, TukuiDB["actionbar"].petbarZ, TukuiDB["actionbar"].petbarX, TukuiDB["actionbar"].petbarY)
+	end
 end
 
 --BATTLEGROUND STATS FRAME
@@ -227,3 +223,7 @@ if TukuiDB["datatext"].battleground == true then
 	cubeleft:RegisterEvent("PLAYER_ENTERING_WORLD")
 	cubeleft:SetScript("OnEvent", CubeLeftClick)
 end
+
+--Left Chat Background
+local leftchat = CreateFrame("Frame", "LeftChat", barbg)
+TukuiDB:CreatePanel(leftchat, TukuiDB["panels"].tinfowidth, TukuiDB:Scale(120), "LEFT", ileft, "LEFT", 0, 78)

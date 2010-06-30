@@ -31,6 +31,7 @@ if not TukuiDB["unitframes"].enable == true or TukuiDB.lowversion == true then r
 ------------------------------------------------------------------------
 --	Textures and Medias
 ------------------------------------------------------------------------
+
 local floor = math.floor
 local format = string.format
 
@@ -63,6 +64,7 @@ local colors = setmetatable({
 		["FUEL"] = {0, 0.55, 0.5},
 		["POWER_TYPE_STEAM"] = {0.55, 0.57, 0.61},
 		["POWER_TYPE_PYRITE"] = {0.60, 0.09, 0.17},
+
 	}, {__index = oUF.colors.power}),
 	happiness = setmetatable({
 		[1] = {.69,.31,.31},
@@ -195,31 +197,36 @@ local PostUpdateHealth = function(self, event, unit, bar, min, max)
 	elseif UnitIsGhost(unit) then
 		bar.value:SetText("|cffD7BEA5"..tukuilocal.unitframes_ouf_ghost.."|r")	
 	else
+		
+		
 		if min ~= max then
-			local r, g, b
-			r, g, b = oUF.ColorGradient(min/max, 0.69, 0.31, 0.31, 0.65, 0.63, 0.35, 0.33, 0.59, 0.33)
+			--local r, g, b
+			--r, g, b = oUF.ColorGradient(min/max, 0.69, 0.31, 0.31, 0.65, 0.63, 0.35, 0.33, 0.59, 0.33)
+			
 			if unit == "player" and self:GetAttribute("normalUnit") ~= "pet" then
-				if TukuiDB["unitframes"].showtotalhpmp == true then
-					bar.value:SetFormattedText("|cff559655%s|r |cffD7BEA5|||r |cff559655%s|r", ShortValue(min), ShortValue(max))
-				else
-					bar.value:SetFormattedText("|cffAF5050%d|r |cffD7BEA5-|r |cff%02x%02x%02x%d%%|r", min, r * 255, g * 255, b * 255, floor(min / max * 100))
-				end
+				--if TukuiDB["unitframes"].showtotalhpmp == true then
+				--	bar.value:SetFormattedText("|cff559655%s|r |cffD7BEA5|||r |cff559655%s|r", ShortValue(min), ShortValue(max))
+				--else
+				--bar.value:SetFormattedText("|cffAF5050%d|r |cffD7BEA5-|r |cff%02x%02x%02x%d%%|r", min, r * 255, g * 255, b * 255, floor(min / max * 100))
+					bar.value:SetFormattedText(ShortValue(min).."/"..ShortValue(max).." | "..floor(min / max * 100).."%%")
+				--end
 			elseif unit == "target" or unit == "focus" or (unit and unit:find("boss%d")) then
-				if TukuiDB["unitframes"].showtotalhpmp == true then
-					bar.value:SetFormattedText("|cff559655%s|r |cffD7BEA5|||r |cff559655%s|r", ShortValue(min), ShortValue(max))
-				else
-					bar.value:SetFormattedText("|cffAF5050%s|r |cffD7BEA5-|r |cff%02x%02x%02x%d%%|r", ShortValue(min), r * 255, g * 255, b * 255, floor(min / max * 100))
-				end
+				--if TukuiDB["unitframes"].showtotalhpmp == true then
+				--	bar.value:SetFormattedText("|cff559655%s|r |cffD7BEA5|||r |cff559655%s|r", ShortValue(min), ShortValue(max))
+				--else
+					--bar.value:SetFormattedText("|cffAF5050%s|r |cffD7BEA5-|r |cff%02x%02x%02x%d%%|r", ShortValue(min), r * 255, g * 255, b * 255, floor(min / max * 100))
+					bar.value:SetFormattedText(ShortValue(min).."/"..ShortValue(max).." | "..floor(min / max * 100).."%%")
+				--end
 			elseif (self:GetName():match"oUF_Arena") then
-					bar.value:SetText("|cff559655"..ShortValue(min).."|r")
+					bar.value:SetText(ShortValue(min))
 			else
-				bar.value:SetFormattedText("|cff%02x%02x%02x%d%%|r", r * 255, g * 255, b * 255, floor(min / max * 100))
+				bar.value:SetFormattedText(ShortValue(min).."/"..ShortValue(max).." | "..floor(min / max * 100).."%%")
 			end
 		else
 			if unit ~= "player" and unit ~= "pet" then
-				bar.value:SetText("|cff559655"..ShortValue(max).."|r")
+				bar.value:SetFormattedText(ShortValue(min).."/"..ShortValue(max).." | "..floor(min / max * 100).."%%")
 			else
-				bar.value:SetText("|cff559655"..max.."|r")
+				bar.value:SetFormattedText(ShortValue(min).."/"..ShortValue(max).." | "..floor(min / max * 100).."%%")
 			end
 		end
 	end
@@ -227,12 +234,13 @@ end
 
 local PostNamePosition = function(self)
 	self.Info:ClearAllPoints()
-	if (self.Power.value:GetText() and UnitIsEnemy("player", "target") and TukuiDB["unitframes"].targetpowerpvponly == true) or (self.Power.value:GetText() and TukuiDB["unitframes"].targetpowerpvponly == false) then
-		self.Info:SetPoint("CENTER", self.panel, "CENTER", 0, 1)
-	else
-		self.Power.value:SetAlpha(0)
+	--if (self.Power.value:GetText() and UnitIsEnemy("player", "target") and TukuiDB["unitframes"].targetpowerpvponly == true) or (self.Power.value:GetText() and TukuiDB["unitframes"].targetpowerpvponly == false) then
+	--if (self.Power.value:GetText()) then
+	--	self.Info:SetPoint("CENTER", self.panel, "CENTER", 0, 1)
+	--else
+		self.Power.value:SetAlpha(1)
 		self.Info:SetPoint("LEFT", self.panel, "LEFT", 4, 1)
-	end
+	--end
 end
 
 local PreUpdatePower = function(self, event, unit)
@@ -249,11 +257,11 @@ local PostUpdatePower = function(self, event, unit, bar, min, max)
 	if (self.unit ~= "player" and self.unit ~= "vehicle" and self.unit ~= "pet" and self.unit ~= "target" and not(self:GetName():match"oUF_Arena")) then return end
 
 	local pType, pToken = UnitPowerType(unit)
-	local color = colors.power[pToken]
+	--local color = colors.power[pToken]
 
-	if color then
-		bar.value:SetTextColor(color[1], color[2], color[3])
-	end
+	--if color then
+	--	bar.value:SetTextColor(color[1], color[2], color[3])
+	--end
 
 	if min == 0 then
 		bar.value:SetText()
@@ -262,42 +270,49 @@ local PostUpdatePower = function(self, event, unit, bar, min, max)
 	elseif UnitIsDead(unit) or UnitIsGhost(unit) then
 		bar.value:SetText()
 	elseif min == max and (pType == 2 or pType == 3 and pToken ~= "POWER_TYPE_PYRITE") then
-		bar.value:SetText()
+		--bar.value:SetText()
+		bar.value:SetFormattedText(ShortValue(min).."/"..ShortValue(max))
 	else
 		if min ~= max then
 			if pType == 0 then
-				if unit == "target" then
-					if TukuiDB["unitframes"].showtotalhpmp == true then
-						bar.value:SetFormattedText("%s |cffD7BEA5|||r %s", ShortValue(max - (max - min)), ShortValue(max))
-					else
-						bar.value:SetFormattedText("%d%% |cffD7BEA5-|r %s", floor(min / max * 100), ShortValue(max - (max - min)))
-					end
-				elseif unit == "player" and self:GetAttribute("normalUnit") == "pet" or unit == "pet" then
-					if TukuiDB["unitframes"].showtotalhpmp == true then
-						bar.value:SetFormattedText("%s |cffD7BEA5|||r %s", ShortValue(max - (max - min)), ShortValue(max))
-					else
-						bar.value:SetFormattedText("%d%%", floor(min / max * 100))
-					end
+				if unit == "player" or unit == "target" then
+					bar.value:SetFormattedText(ShortValue(min).."/"..ShortValue(max))
+				--if unit == "target" then
+					--if TukuiDB["unitframes"].showtotalhpmp == true then
+					--	bar.value:SetFormattedText("%s |cffD7BEA5|||r %s", ShortValue(max - (max - min)), ShortValue(max))
+					--else
+						--bar.value:SetFormattedText("%d%% |cffD7BEA5-|r %s", floor(min / max * 100), ShortValue(max - (max - min)))
+						--bar.value:SetFormattedText(ShortValue(min).."/"..ShortValue(max))
+					--end
+				--elseif unit == "player" and self:GetAttribute("normalUnit") == "pet" or unit == "pet" then
+					--if TukuiDB["unitframes"].showtotalhpmp == true then
+					--	bar.value:SetFormattedText("%s |cffD7BEA5|||r %s", ShortValue(max - (max - min)), ShortValue(max))
+					--else
+						--bar.value:SetFormattedText("%d%%", floor(min / max * 100))
+						--bar.value:SetFormattedText(ShortValue(min).."/"..ShortValue(max))
+					--end
 				elseif (self:GetName():match"oUF_Arena") then
 					bar.value:SetText(ShortValue(min))
-					--bar.value:SetTextColor(1, 1, 1)
 				else
-					if TukuiDB["unitframes"].showtotalhpmp == true then
-						bar.value:SetFormattedText("%s |cffD7BEA5|||r %s", ShortValue(max - (max - min)), ShortValue(max))
-					else
-						bar.value:SetFormattedText("%d%% |cffD7BEA5-|r %d", floor(min / max * 100), max - (max - min))
-					end
+					--if TukuiDB["unitframes"].showtotalhpmp == true then
+					--	bar.value:SetFormattedText("%s |cffD7BEA5|||r %s", ShortValue(max - (max - min)), ShortValue(max))
+					--else
+						--bar.value:SetFormattedText("%d%% |cffD7BEA5-|r %d", floor(min / max * 100), max - (max - min))
+						bar.value:SetFormattedText(ShortValue(min).."/"..ShortValue(max))
+					--end
 				end
 			else
-				bar.value:SetText(max - (max - min))
+				--bar.value:SetText(max - (max - min))
+				bar.value:SetFormattedText(ShortValue(min).."/"..ShortValue(max))
 			end
 		else
 			if unit == "pet" or unit == "target" or (unit and unit:find("arena%d")) then
-				bar.value:SetText(ShortValue(min))
+				bar.value:SetFormattedText(ShortValue(min).."/"..ShortValue(max))
 			elseif (self:GetName():match"oUF_Arena") then
-				bar.value:SetText("|cffFFFFFF"..min.."|r")
-			else
 				bar.value:SetText(min)
+			else
+				--bar.value:SetText(min)
+				bar.value:SetFormattedText(ShortValue(min).."/"..ShortValue(max))
 			end
 		end
 	end
@@ -357,10 +372,10 @@ local UpdateDruidMana = function(self)
 
 		if min ~= max then
 			if self.Power.value:GetText() then
-				self.DruidMana:SetPoint("LEFT", self.Power.value, "RIGHT", 1, 0)
-				self.DruidMana:SetFormattedText("|cffD7BEA5-|r %d%%|r", floor(min / max * 100))
+				self.DruidMana:SetPoint("RIGHT", self.panel, "RIGHT", -4, 0)
+				self.DruidMana:SetFormattedText("|cffD7BEA5|r %d%%|r", floor(min / max * 100))
 			else
-				self.DruidMana:SetPoint("LEFT", self.panel, "LEFT", 4, 1)
+				self.DruidMana:SetPoint("RIGHT", self.panel, "RIGHT", -4, 1)
 				self.DruidMana:SetFormattedText("%d%%", floor(min / max * 100))
 			end
 		else
@@ -556,11 +571,13 @@ local SpellCastInterruptable = function(self, event, unit)
 	end
 end
 
+
 ------------------------------------------------------------------------
 --	Layout Style
 ------------------------------------------------------------------------
 
 local SetStyle = function(self, unit)
+	self:SetScale(.82)
 	self.menu = Menu
 	self.colors = colors
 	self:RegisterForClicks("AnyUp")
@@ -590,11 +607,11 @@ local SetStyle = function(self, unit)
 	self.FrameBackdrop:SetBackdropBorderColor(0, 0, 0)
 	self.FrameBackdrop:SetPoint("BOTTOMRIGHT", self, "BOTTOMRIGHT", 3, -3)
 	
-	self.Health:SetHeight((unit == "player" or unit == "target") and TukuiDB:Scale(26)  
+	self.Health:SetHeight((unit == "player" or unit == "target") and TukuiDB:Scale(17)  
 	or self:GetParent():GetName():match("oUF_Party") and 37
 		or (unit == "focus") and TukuiDB:Scale(19)
 		or (unit == "targettarget" or unit == "focustarget") and TukuiDB:Scale(18)
-		or (unit == "pet") and TukuiDB:Scale(17)
+		or (unit == "pet") and TukuiDB:Scale(13)
 		or (unit and unit:find("arena%d")) and TukuiDB:Scale(22)
 		or (unit and unit:find("boss%d")) and TukuiDB:Scale(22)
 		or self:GetAttribute("unitsuffix") == "pet" and TukuiDB:Scale(10) or TukuiDB:Scale(16))
@@ -637,7 +654,7 @@ local SetStyle = function(self, unit)
 	self.Health.value = SetFontString(self.Health, font, (unit == "player" or unit == "target") and 12 or 12)
 
 	self.Power = CreateFrame("StatusBar", self:GetName().."_Power", self)
-	self.Power:SetHeight((unit == "player" or unit == "target") and TukuiDB:Scale(8) or TukuiDB:Scale(5))
+	self.Power:SetHeight((unit == "player" or unit == "target") and TukuiDB:Scale(17) or TukuiDB:Scale(5))
 	self.Power:SetPoint("TOPLEFT", self.Health, "BOTTOMLEFT", 0, -TukuiDB.mult)
 	self.Power:SetPoint("TOPRIGHT", self.Health, "BOTTOMRIGHT", 0, -TukuiDB.mult)
 	self.Power:SetStatusBarTexture(normTex)
@@ -673,39 +690,36 @@ local SetStyle = function(self, unit)
 	self.panel = CreateFrame("Frame", nil, self)
 	
 	if unit == "player" or unit == "target" then
-		if TukuiDB["unitframes"].charportrait == true then
-			TukuiDB:CreatePanel(self.panel, 216, 21, "TOP", self.Power, "BOTTOM", 0, TukuiDB:Scale(-1))
-		else
-			TukuiDB:CreatePanel(self.panel, 250, 21, "TOP", self.Power, "BOTTOM", 0, TukuiDB:Scale(-1))
-		end
+		TukuiDB:CreatePanel(self.panel, 250, 21, "TOP", self.Power, "BOTTOM", 0, TukuiDB:Scale(-1))
 		self.panel:SetFrameLevel(2)
 		self.panel:SetFrameStrata("MEDIUM")
 		self.panel:SetBackdropBorderColor(unpack(TukuiDB["media"].altbordercolor))
 		
-		self.Health.value = SetFontString(self.panel, font, 12)
-		self.Health.value:SetPoint("RIGHT", self.panel, "RIGHT", -4, 1)
+		self.Health.value = SetFontString(self.Health, font2, 14)
+		self.Health.value:SetPoint("RIGHT", self.Health, "RIGHT", -4, 1)
+		self.Power.value = SetFontString(self.Power, font2, 14)
+		self.Power.value:SetPoint("RIGHT", self.Power, "RIGHT", -4, 0)
 		
-		if (unit == "player") or (unit == "target" and TukuiDB["unitframes"].targetpowerpvponly == true) or (unit == "target" and TukuiDB["unitframes"].targetpowerpvponly == false) then
-			self.Power.value = SetFontString(self.panel, font, (unit == "player" or unit == "target") and 12 or 12)
-			self.Power.value:SetPoint("LEFT", self.panel, "LEFT", 4, 1)
-		end
 		
-		if unit ~= "player" then
-			self.Info = SetFontString(self.panel, font, 12)
+		--if unit ~= "player" then
+			--DK's edit - Show's name of toon and level
+			--self.Info = SetFontString(self.panel, font, 12)
+			--self.Info:SetPoint("LEFT", self.panel, "LEFT", 4, 1)
+			self.Info = SetFontString(self.panel, font2, 14)
 			self.Info:SetPoint("LEFT", self.panel, "LEFT", 4, 1)
 			self:Tag(self.Info, "[GetNameColor][NameLong] [DiffColor][level] [shortclassification]")
-		end
-	elseif unit == "targettarget" or unit == "focustarget" then
+		--end
+	elseif unit == "targettarget" or unit == "focustarget" or unit == "focus" then
 		TukuiDB:CreatePanel(self.panel, 129, 17, "TOP", self.Health, "BOTTOM", 0, TukuiDB:Scale(-1))
 		self.panel:SetFrameLevel(2)
 		self.panel:SetFrameStrata("MEDIUM")
 		self.panel:SetBackdropBorderColor(unpack(TukuiDB["media"].altbordercolor))
 		
-		self.Info = SetFontString(self.panel, font, 12)
+		self.Info = SetFontString(self.panel, font, 14)
 		self.Info:SetPoint("CENTER", self.panel, "CENTER", 0, 1)
 		self:Tag(self.Info, "[GetNameColor][NameMedium]")
 	elseif unit == "pet" then
-		TukuiDB:CreatePanel(self.panel, 129, 17, "TOP", self.Power, "BOTTOM", 0, TukuiDB:Scale(-1))
+		TukuiDB:CreatePanel(self.panel, 140, 17, "TOP", self.Power, "BOTTOM", 0, TukuiDB:Scale(-1))
 		self.panel:SetFrameLevel(2)
 		self.panel:SetFrameStrata("MEDIUM")
 		self.panel:SetBackdropBorderColor(unpack(TukuiDB["media"].altbordercolor))
@@ -713,16 +727,16 @@ local SetStyle = function(self, unit)
 		self.Info = SetFontString(self.panel, font, 12)
 		self.Info:SetPoint("CENTER", self.panel, "CENTER", 0, 1)
 		self:Tag(self.Info, "[GetNameColor][NameLong] [DiffColor][level] [shortclassification]")
-	elseif unit =="focus" then
-		self.FrameBackdrop:SetAlpha(0)
-		self.Health.bg.multiplier = 0.13
+	--elseif unit =="focus" then
+	--	self.FrameBackdrop:SetAlpha(0)
+	--	self.Health.bg.multiplier = 0.13
 		
-		self.Health.value = SetFontString(self.Health, font,12, "OUTLINE")
-		self.Health.value:SetPoint("RIGHT",self.Health,"RIGHT", -6, .5)
+	--	self.Health.value = SetFontString(self.Health, font,12, "OUTLINE")
+	--	self.Health.value:SetPoint("RIGHT",self.Health,"RIGHT", -6, .5)
 		
-		self.Info = SetFontString(self.Health, font, 12, "OUTLINE")
-		self.Info:SetPoint("LEFT",self.Health,"LEFT", 6, .5)
-		self:Tag(self.Info, "[GetNameColor][NameLong]")
+	--	self.Info = SetFontString(self.Health, font, 12, "OUTLINE")
+	--	self.Info:SetPoint("LEFT",self.Health,"LEFT", 6, .5)
+	--	self:Tag(self.Info, "[GetNameColor][NameLong]")
 	elseif (unit and unit:find("arena%d")) then
 		self.Health.value = SetFontString(self.Health, font,12, "OUTLINE")
 		self.Health.value:SetPoint("LEFT", 2, 1)
@@ -733,10 +747,10 @@ local SetStyle = function(self, unit)
 		self.Info:SetPoint("CENTER", 0, 1)
 		self:Tag(self.Info, "[GetNameColor][NameLong]")
 	elseif (unit and unit:find("boss%d")) then
-		self.Health.value = SetFontString(self.Health, font,12, "OUTLINE")
+		self.Health.value = SetFontString(self.Health, font2, 14, "OUTLINE")
 		self.Health.value:SetPoint("RIGHT", -6, 1)
 		
-		self.Info = SetFontString(self.Health, font, 12, "OUTLINE")
+		self.Info = SetFontString(self.Health, font, 14, "OUTLINE")
 		self.Info:SetPoint("LEFT", 6, 1)
 		self:Tag(self.Info, "[GetNameColor][NameLong]")
 	elseif (self:GetParent():GetName():match"oUF_MainTank" or self:GetParent():GetName():match"oUF_MainAssist") then
@@ -745,7 +759,7 @@ local SetStyle = function(self, unit)
 		self:Tag(self.Info, "[GetNameColor][NameShort]")
 	else
 		self.Health.value:Hide()
-		self.Power.value:Hide()
+		--self.Power.value:Hide()
 		
 		self.FrameBackdrop:SetPoint("BOTTOMRIGHT", self, "BOTTOMRIGHT", 4.5, -4.5)
 		self.Info:SetPoint("CENTER", 1, 1)
@@ -1066,19 +1080,21 @@ local SetStyle = function(self, unit)
 			end
 					
 			if (unit == "player" or unit == "target") and (TukuiDB["unitframes"].charportrait == true) then
-				self.Portrait = CreateFrame("PlayerModel", nil, self)
+				self.Portrait = CreateFrame("PlayerModel", nil, self)				
 				self.Portrait:SetFrameLevel(8)
-				self.Portrait:SetHeight(57)
-				self.Portrait:SetWidth(33)
 				self.Portrait:SetAlpha(1)
+				self.Portrait:SetHeight(75)
+				self.Portrait:SetWidth(75)
 				if unit == "player" then
-					self.Health:SetPoint("TOPLEFT", 34,0)
-					self.Health:SetPoint("TOPRIGHT")
-					self.Portrait:SetPoint("TOPLEFT", self.Health, "TOPLEFT", -34,0)
+					--TukuiDB:CreatePanel(self.Portrait, 100, 100, "TOPRIGHT", self.Health, "TOPLEFT", TukuiDB:Scale(-6), 0)
+					local portraitbg = CreateFrame("Frame", "Portait Background", self.Health)
+					TukuiDB:CreatePanel(portraitbg, 78, 78, "TOPRIGHT", self.Health, "TOPLEFT", TukuiDB:Scale(-6), 0)
+					self.Portrait:SetPoint("CENTER", portraitbg, "CENTER", TukuiDB:Scale(0),TukuiDB:Scale(0))
 				elseif unit == "target" then
-					self.Health:SetPoint("TOPLEFT")
-					self.Health:SetPoint("TOPRIGHT", -34,0)
-					self.Portrait:SetPoint("TOPRIGHT", self.Health, "TOPRIGHT", 34,0)
+					--self.Portrait:SetPoint("TOPLEFT", self.Health, "TOPRIGHT", 6,0)
+					local portraitbg = CreateFrame("Frame", "Portait Background", self.Health)
+					TukuiDB:CreatePanel(portraitbg, 78, 78, "TOPLEFT", self.Health, "TOPRIGHT", TukuiDB:Scale(6), 0)
+					self.Portrait:SetPoint("CENTER", portraitbg, "CENTER", TukuiDB:Scale(0),TukuiDB:Scale(0))
 				end
 				table.insert(self.__elements, HidePortrait)
 			end
@@ -1253,7 +1269,7 @@ local SetStyle = function(self, unit)
 	------------------------------------------------------------------------
 	
 	if (unit == "player" or unit == "target") and (TukuiDB["unitframes"].combatfeedback == true) then
-			self.CombatFeedbackText = SetFontString(self.Health, font, 14, "OUTLINE")
+			self.CombatFeedbackText = SetFontString(self.panel, font2, 14, "OUTLINE")
 			self.CombatFeedbackText:SetPoint("CENTER", 0, 1)
 			self.CombatFeedbackText.colors = {
 				DAMAGE = {0.69, 0.31, 0.31},
@@ -1303,17 +1319,13 @@ local SetStyle = function(self, unit)
 	if unit == "player" or unit == "target" then
 		self:SetAttribute("initial-height", TukuiDB:Scale(57))
 		self:SetAttribute("initial-width", TukuiDB:Scale(250))
-	elseif unit == "targettarget" or unit == "focustarget" then
+	elseif unit == "targettarget" or unit == "focustarget" or unit == "focus" then
 		self:SetAttribute("initial-height", TukuiDB:Scale(36))
 		self:SetAttribute("initial-width", TukuiDB:Scale(129))
         self.Power:Hide()        
-	elseif unit == "focus" then
-		self:SetAttribute("initial-height", TukuiInfoRight:GetHeight() - TukuiDB:Scale(4))
-		self:SetAttribute("initial-width", TukuiInfoRight:GetWidth() - TukuiDB:Scale(4))
-		self.Power:Hide()
 	elseif unit == "pet" then
-		self:SetAttribute("initial-height", TukuiDB:Scale(41))
-		self:SetAttribute("initial-width", TukuiDB:Scale(129))
+		self:SetAttribute("initial-height", TukuiDB:Scale(35))
+		self:SetAttribute("initial-width", TukuiDB:Scale(140))
 	elseif (unit and unit:find("arena%d")) or (unit and unit:find("boss%d")) then
 		self:SetAttribute("initial-height", TukuiDB:Scale(29))
 		self:SetAttribute("initial-width", TukuiDB:Scale(200))
@@ -1440,15 +1452,13 @@ if TukuiDB["unitframes"].t_mt == true then
 	assist:Show()
 end
 
-if not IsAddOnLoaded("DXE") then
-	for i = 1,MAX_BOSS_FRAMES do
-	   local t_boss = _G["Boss"..i.."TargetFrame"]
-	   t_boss:UnregisterAllEvents()
-	   t_boss.Show = dummy
-	   t_boss:Hide()
-	   _G["Boss"..i.."TargetFrame".."HealthBar"]:UnregisterAllEvents()
-	   _G["Boss"..i.."TargetFrame".."ManaBar"]:UnregisterAllEvents()
-	end
+for i = 1,MAX_BOSS_FRAMES do
+   local t_boss = _G["Boss"..i.."TargetFrame"]
+   t_boss:UnregisterAllEvents()
+   t_boss.Show = dummy
+   t_boss:Hide()
+   _G["Boss"..i.."TargetFrame".."HealthBar"]:UnregisterAllEvents()
+   _G["Boss"..i.."TargetFrame".."ManaBar"]:UnregisterAllEvents()
 end
 
 local boss = {}
@@ -1467,7 +1477,7 @@ TestUI = function()
 	testui()
 	UnitAura = function()
 		-- name, rank, texture, count, dtype, duration, timeLeft, caster
-		return 'penancelol', 'Rank 2', 'Interface\\Icons\\Spell_Holy_Penance', random(5), 'Magic', 0, 0, "player"
+		return '????????? ????', 'Rank 2', 'Interface\\Icons\\Spell_Holy_Penance', random(5), 'Magic', 0, 0, "player"
 	end
 	if(oUF) then
 		for i, v in pairs(oUF.units) do

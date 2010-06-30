@@ -1,18 +1,17 @@
 ----------------------------------------------------------------------------
 -- General Config
 ----------------------------------------------------------------------------
-
 TukuiDB["general"] = {
-	["autoscale"] = true, -- mainly enabled for users that don't want to mess with the config file
+	["autoscale"] = false, -- mainly enabled for users that don't want to mess with the config file
 	["uiscale"] = 0.71, -- set your value (between 0.64 and 1) of your uiscale if autoscale is off
-	["overridelowtohigh"] = false, -- EXPERIMENTAL ONLY! override lower version to higher version on a lower reso.
-	["multisampleprotect"] = true, -- i don't recommend this because of shitty border but, voila!
+	["overridelowtohigh"] = true, -- EXPERIMENTAL ONLY! override lower version to higher version on a lower reso.
+	["multisampleprotect"] = false, -- i don't recommend this because of shitty border but, voila!
 }
 
 TukuiDB["unitframes"] = {
 	-- general options
 	["enable"] = true, -- -- can i really need to explain this?
-	["unitcastbar"] = true, -- enable tukui castbar
+	["unitcastbar"] = false, -- enable tukui castbar
 	["cblatency"] = false, -- enable castbar latency
 	["cbicons"] = true, -- enable icons on castbar
 	["auratimer"] = true, -- enable timers on buffs/debuffs
@@ -22,35 +21,38 @@ TukuiDB["unitframes"] = {
 	["targetauras"] = true, -- enable auras on target unit frame
 	["highThreshold"] = 80, -- hunter high threshold
 	["lowThreshold"] = 20, -- global low threshold, for low mana warning.
-	["targetpowerpvponly"] = true, -- enable power text on pvp target only
+	["targetpowerpvponly"] = false, -- enable power text on pvp target only
 	["totdebuffs"] = false, -- enable tot debuffs (high reso only)
 	["focusdebuffs"] = false, -- enable focus debuffs 
-	["playerdebuffsonly"] = false, -- enable our debuff only on our current target
+	["playerdebuffsonly"] = true, -- enable our debuff only on our current target
 	["showfocustarget"] = false, -- show focus target
-	["showtotalhpmp"] = false, -- change the display of info text on player and target with XXXX/Total.
 	["showsmooth"] = true, -- enable smooth bar
-	["showthreat"] = true, -- enable the threat bar anchored to info left panel.
-	["charportrait"] = false, -- can i really need to explain this?
+	["showthreat"] = false, -- enable the threat bar anchored to info left panel.
+	["charportrait"] = true, -- can i really need to explain this?
 	["t_mt"] = false, -- enable maintank and mainassist
 	["t_mt_power"] = false, -- enable power bar on maintank and mainassist because it's not show by default.
 	["combatfeedback"] = true, -- enable combattext on player and target.
 	["classcolor"] = true, -- if set to false, use foof color theme. 
 	["playeraggro"] = false, -- glow border of player frame change color according to your current aggro.
-	["positionbychar"] = false, -- save X, Y position with /uf (movable frame) per character instead of per account.
+	["positionbychar"] = true, -- save X, Y position with /uf (movable frame) per character instead of per account.
 
 	-- raid layout
 	["showrange"] = true, -- show range opacity on raidframes
-	["raidalphaoor"] = 0.3, -- alpha of unitframes when unit is out of range
+	["raidalphaoor"] = 0.4, -- alpha of unitframes when unit is out of range
 	["gridposX"] = 18, -- horizontal position starting from left
-	["gridposY"] = -250, -- vertical position starting from top
+	["gridposY"] = 0, -- vertical position starting from top
 	["gridposZ"] = "TOPLEFT", -- if we want to change the starting position zone
-	["gridonly"] = false, -- enable grid only mode for all healer mode raid layout.
+	["gridonly"] = true, -- enable grid only mode for all healer mode raid layout.
+	["showgridinparty"] = true, -- will show the grid frames while you are in a party.
+	["showgridwhilesolo"] = false, -- will show the grid frames while you are solo.
+	["showgridinraid"] = true, -- will show the grid frames while you are in a raid.
 	["showsymbols"] = true,	-- show symbol.
 	["aggro"] = true, -- show aggro on all raids layouts
-	["raidunitdebuffwatch"] = false, -- track important spell to watch in pve for healing mode.
+	["raidunitdebuffwatch"] = true, -- track important spell to watch in pve for healing mode.
 	["gridhealthvertical"] = true, -- enable vertical grow on health bar
-	["showplayerinparty"] = false, -- show my player frame in party
-	["gridscale"] = 1, -- set the healing grid scaling
+	["showplayerinparty"] = true, -- show my player frame in party
+	["partyframesinparty"] = false, -- turn off party frames while in a party, useful when you show grid frames in party
+	["gridscale"] = .8, -- set the healing grid scaling
 	["gridmaxgroup"] = 8, -- max # of group you want to show on grid layout, between 1 and 8
 
 	-- priest only plugin
@@ -80,13 +82,25 @@ TukuiDB["actionbar"] = {
 	["rightbarmouseover"] = false, -- enable right bars on mouse over
 	["shapeshiftmouseover"] = false, -- enable shapeshift or totembar on mouseover
 	["hideshapeshift"] = false, -- hide shapeshift or totembar because it was a lot requested.
-	["bottomrows"] = 1, -- numbers of row you want to show at the bottom (select between 1 and 2 only)
+	["bottomrows"] = 2, -- numbers of row you want to show at the bottom (select between 1 and 2 only)
 	["rightbars"] = 0, -- numbers of right bar you want
-	["showgrid"] = true, -- show grid on empty button
+	["rightbarbuttons"] = 10, --number of buttons you want on each right bar (1-12)
+	["actionbarbuttons"] = 15, --number of buttons you want per bottom row (12-24)
+	["actionbarbuttonsize"] = 33, -- size of the buttons on the bottom action bars.
+	["petbarbuttonsize"] = 24, -- size of the buttons on the pet bar. Also determines the size of the shape shift / totem / stance / presence bar.
+	["shapeshiftbuttonsize"] = 22, --size of the shape shift / totem / stance / presence bar.
+	["petbarX"] = -35, -- horizontal position starting from left
+	["petbarY"] = 175, -- vertical position starting from top
+	["petbarZ"] = "BOTTOMRIGHT", -- if we want to change the starting position zone
+	["verticlepetbar"] = false, --do you want a verticle or horizontal pet bar?
 }
 
 TukuiDB["nameplate"] = {
-	["enable"] = true, -- enable nice skinned nameplates that fit into tukui
+	["enable"] = true, --use the nameplates?
+	["healthheight"] = 9, -- set the height of the health bar
+	["healthwidth"] = 100, -- set the width of the health bar
+	["castheight"] = 5, -- set the height of the enemy cast bar
+	["fontsize"] = 12, -- set the font size use on the name plate
 }
 
 TukuiDB["bags"] = {
@@ -127,8 +141,8 @@ TukuiDB["datatext"] = {
 	["armor"] = 0, -- show your armor value against the level mob you are currently targeting
 
 	["battleground"] = true, -- enable 3 stats in battleground only that replace stat1,stat2,stat3.
-	["time24"] = true, -- set time to 24h format.
-	["localtime"] = false, -- set time to local time instead of server time.
+	["time24"] = false, -- set time to 24h format.
+	["localtime"] = true, -- set time to local time instead of server time.
 	["font"] = [[fonts\ARIALN.ttf]], -- font used for panels.
 	["fontsize"] = 12, -- font size for panels.
 }
@@ -140,7 +154,7 @@ TukuiDB["chat"] = {
 }
 
 TukuiDB["panels"] = { 
-	["tinfowidth"] = 370, -- the width of left and right stat panels.
+	["tinfowidth"] = 400, -- the width of left and right stat panels.
 }
 
 TukuiDB["tooltip"] = {
@@ -158,18 +172,18 @@ TukuiDB["combatfont"] = {
 TukuiDB["merchant"] = {
 	["enable"] = true, -- true to enable this mod, false to disable
 	["sellgrays"] = true, -- automaticly sell grays?
-	["autorepair"] = true, -- automaticly repair?
+	["autorepair"] = false, -- automaticly repair?
 }
 
 TukuiDB["error"] = {
-	["enable"] = true, -- true to enable this mod, false to disable
+	["enable"] = false, -- true to enable this mod, false to disable
 	filter = { -- what messages to not hide
 		["Inventory is full."] = true, -- inventory is full will not be hidden by default
 	},
 }
 
 TukuiDB["invite"] = { 
-	["autoaccept"] = true, -- auto-accept invite from guildmate and friends.
+	["autoaccept"] = false, -- auto-accept invite from guildmate and friends.
 }
 
 TukuiDB["watchframe"] = { 
@@ -177,7 +191,7 @@ TukuiDB["watchframe"] = {
 }
 
 TukuiDB["buffreminder"] = {
-	["enable"] = false, -- this is now the new innerfire warning script for all armor/aspect class.
+	["enable"] = true, -- this is now the new innerfire warning script for all armor/aspect class.
 	["sound"] = true, -- enable warning sound notification for reminder.
 }
 

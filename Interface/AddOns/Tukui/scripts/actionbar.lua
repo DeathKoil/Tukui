@@ -10,12 +10,11 @@ InterfaceOptionsActionBarsPanelBottomRight:Hide()
 InterfaceOptionsActionBarsPanelRight:Hide()
 InterfaceOptionsActionBarsPanelRightTwo:Hide()
 InterfaceOptionsActionBarsPanelAlwaysShowActionBars:Hide()
-
 -- this thing below is only "invisible" frame holder to setup for action bar. Moving or changing these lines will do nothing visually in-game.
 -- we create invisible bar holder frame to avoid bugs, example, vehicle, seen in the past version of Tukui when showing or hidding bar.
 -- Running our codes via frame holder instead of blizzard default action bar frame name allow us to do what we want with 0 errors/crash.
 TukuiDB.absettings = {
-	["BonusBar"]   = {ma = "BOTTOMLEFT", p = TukuiActionBarBackground, a = "BOTTOMLEFT", x = TukuiDB:Scale(4), y = TukuiDB:Scale(4), scale = 1},
+	["BonusBar"]   = {ma = "TOPLEFT", p = TukuiActionBarBackground, a = "TOPLEFT", x = TukuiDB:Scale(4), y = TukuiDB:Scale(-4), scale = 1},
 	["Bar2"]       = {ma = "BOTTOMLEFT", p = TukuiActionBarBackground, a = "BOTTOMLEFT", x = TukuiDB:Scale(4), y = TukuiDB:Scale(4), scale = 1},
 	["Bar3"]       = {ma = "BOTTOMLEFT", p = TukuiActionBarBackground, a = "BOTTOMLEFT", x = TukuiDB:Scale(4), y = TukuiDB:Scale(4), scale = 1},
 	["Right"]      = {ma = "BOTTOMLEFT", p = TukuiActionBarBackground, a = "BOTTOMLEFT", x = TukuiDB:Scale(4), y = TukuiDB:Scale(4), scale = 1},
@@ -59,7 +58,7 @@ for i = 1, 12 do
 end
 
 ActionButton1:ClearAllPoints()
-ActionButton1:SetPoint("BOTTOMLEFT", fbar1, "BOTTOMLEFT")
+ActionButton1:SetPoint("TOPLEFT", fbar1, "TOPLEFT")
 for i=2, 12 do
 	local b = _G["ActionButton"..i]
 	local b2 = _G["ActionButton"..i-1]
@@ -73,7 +72,7 @@ BonusActionBarFrame:SetWidth(0.01)
 BonusActionBarTexture0:Hide()
 BonusActionBarTexture1:Hide()
 BonusActionButton1:ClearAllPoints()
-BonusActionButton1:SetPoint("BOTTOMLEFT", fbar1, "BOTTOMLEFT")
+BonusActionButton1:SetPoint("TOPLEFT", fbar1, "TOPLEFT")
 for i=2, 12 do
 	local b = _G["BonusActionButton"..i]
 	local b2 = _G["BonusActionButton"..i-1]
@@ -147,12 +146,16 @@ PossessBarFrame:SetAlpha(0)
 PetActionBarFrame:SetParent(fpet)
 PetActionBarFrame:SetWidth(0.01)
 PetActionButton1:ClearAllPoints()
-PetActionButton1:SetPoint("TOP", TukuiPetActionBarBackground, "TOP", 0, TukuiDB:Scale(-4))
+PetActionButton1:SetPoint("TOPLEFT", TukuiPetActionBarBackground, "TOPLEFT", TukuiDB:Scale(4), TukuiDB:Scale(-4))
 for i=2, 10 do
 	local b = _G["PetActionButton"..i]
 	local b2 = _G["PetActionButton"..i-1]
 	b:ClearAllPoints()
-	b:SetPoint("TOP", b2, "BOTTOM", 0, -TukuiDB.petbuttonspacing)
+	if TukuiDB["actionbar"].verticlepetbar then
+		b:SetPoint("TOP", b2, "BOTTOM", 0, TukuiDB:Scale(-4))
+	else
+		b:SetPoint("LEFT", b2, "RIGHT", TukuiDB:Scale(4), TukuiDB:Scale(0))
+	end
 end
 
 ------------------------------------------------------------------------------------------
@@ -187,6 +190,10 @@ if db.rightbars > 0 then
       local b2 = _G["MultiBarRightButton"..i-1]
       b:ClearAllPoints()
       b:SetPoint("TOP", b2, "BOTTOM", 0, -TukuiDB.buttonspacing)
+	  if i > TukuiDB["actionbar"].rightbarbuttons then
+			b:SetAlpha(0)
+			b:SetScale(0.0001)
+		end
    end
 end
 if db.rightbars > 1 then
@@ -198,6 +205,10 @@ if db.rightbars > 1 then
       local b2 = _G["MultiBarBottomRightButton"..i-1]
       b:ClearAllPoints()
       b:SetPoint("TOP", b2, "BOTTOM", 0, -TukuiDB.buttonspacing)
+	  if i > TukuiDB["actionbar"].rightbarbuttons then
+			b:SetAlpha(0)
+			b:SetScale(0.0001)
+		end
    end    
 end
 if db.rightbars > 2 then
@@ -209,6 +220,10 @@ if db.rightbars > 2 then
       local b2 = _G["MultiBarLeftButton"..i-1]
       b:ClearAllPoints()
       b:SetPoint("TOP", b2, "BOTTOM", 0, -TukuiDB.buttonspacing)
+	  if i > TukuiDB["actionbar"].rightbarbuttons then
+			b:SetAlpha(0)
+			b:SetScale(0.0001)
+		end
    end
 end
 
@@ -217,7 +232,7 @@ if TukuiDB.lowversion == true then
    if db.bottomrows == 2 then
       fbar2:Show()
       MultiBarBottomLeftButton1:ClearAllPoints()
-      MultiBarBottomLeftButton1:SetPoint("BOTTOM", ActionButton1, "TOP", 0, TukuiDB:Scale(4))
+      MultiBarBottomLeftButton1:SetPoint("TOP", ActionButton1, "BOTTOM", 0, TukuiDB:Scale(-4))
       for i=2, 12 do
          local b = _G["MultiBarBottomLeftButton"..i]
          local b2 = _G["MultiBarBottomLeftButton"..i-1]
@@ -234,15 +249,16 @@ else
       local b2 = _G["MultiBarBottomLeftButton"..i-1]
       b:ClearAllPoints()
       b:SetPoint("LEFT", b2, "RIGHT", TukuiDB.buttonspacing, 0)
+	  if i > TukuiDB["actionbar"].actionbarbuttons - 12 then
+			b:SetAlpha(0)
+			b:SetScale(0.0001)
+		end
    end
-   MultiBarBottomLeftButton11:SetAlpha(0)
-   MultiBarBottomLeftButton11:SetScale(0.0001)
-   MultiBarBottomLeftButton12:SetAlpha(0)
-   MultiBarBottomLeftButton12:SetScale(0.0001)   
+     
    if db.bottomrows == 2 then
       fbar5:Show()
       MultiBarBottomRightButton1:ClearAllPoints()
-      MultiBarBottomRightButton1:SetPoint("BOTTOM", ActionButton1, "TOP", 0, TukuiDB:Scale(4))
+      MultiBarBottomRightButton1:SetPoint("TOP", ActionButton1, "BOTTOM", 0, TukuiDB:Scale(-4))
       for i= 2, 12 do
          local b = _G["MultiBarBottomRightButton"..i]
          local b2 = _G["MultiBarBottomRightButton"..i-1]
@@ -257,11 +273,11 @@ else
          local b2 = _G["MultiBarLeftButton"..i-1]
          b:ClearAllPoints()
          b:SetPoint("LEFT", b2, "RIGHT", TukuiDB.buttonspacing, 0)
+		 if i > TukuiDB["actionbar"].actionbarbuttons - 12 then
+			b:SetAlpha(0)
+			b:SetScale(0.0001)
+		end
       end
-      MultiBarLeftButton11:SetScale(0.0001)
-      MultiBarLeftButton11:SetAlpha(0)
-      MultiBarLeftButton12:SetScale(0.0001)
-      MultiBarLeftButton12:SetAlpha(0)
    end
 end
 

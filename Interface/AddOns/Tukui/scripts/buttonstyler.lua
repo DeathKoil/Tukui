@@ -57,25 +57,32 @@ local function style(self)
 end
 
 local function stylesmallbutton(normal, button, icon, name, pet)
+	local size = 0
 	local Flash	 = _G[name.."Flash"]
 	button:SetPushedTexture(media.buttonhover)
 	button:SetNormalTexture("")
 	Flash:SetTexture("")
 	
+	if pet then
+		size = TukuiDB["actionbar"].petbarbuttonsize
+	else
+		size = TukuiDB["actionbar"].shapeshiftbuttonsize
+	end
+	
 	if not _G[name.."Panel"] then
-		button:SetWidth(TukuiDB.petbuttonsize)
-		button:SetHeight(TukuiDB.petbuttonsize)
+		button:SetWidth(size)
+		button:SetHeight(size)
 		
 		local panel = CreateFrame("Frame", name.."Panel", button)
-		TukuiDB:CreatePanel(panel, TukuiDB.petbuttonsize, TukuiDB.petbuttonsize, "CENTER", button, "CENTER", 0, 0)
+		TukuiDB:CreatePanel(panel,TukuiDB:Scale(size), TukuiDB:Scale(size), "CENTER", button, "CENTER", 0, 0)
 		panel:SetBackdropColor(unpack(media.backdropcolor))
 
 		icon:SetTexCoord(.08, .92, .08, .92)
 		icon:ClearAllPoints()
 		if pet then
 			local autocast = _G[name.."AutoCastable"]
-			autocast:SetWidth(TukuiDB:Scale(41))
-			autocast:SetHeight(TukuiDB:Scale(40))
+			autocast:SetWidth(TukuiDB:Scale(size+8))
+			autocast:SetHeight(TukuiDB:Scale(size+7))
 			autocast:ClearAllPoints()
 			autocast:SetPoint("CENTER", button, 0, 0)
 			icon:SetPoint("TOPLEFT", button, TukuiDB:Scale(2), TukuiDB:Scale(-2))

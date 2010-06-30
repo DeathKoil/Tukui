@@ -7,7 +7,7 @@ tNamePlates:SetScript("OnEvent", function(self, event, ...) self[event](self, ..
 
 local barTexture = TukuiDB["media"].normTex
 local overlayTexture = [=[Interface\Tooltips\Nameplate-Border]=]
-local font, fontSize, fontOutline = [=[Fonts\ARIALN.ttf]=], 10, "OUTLINE"
+local font, fontSize, fontOutline = [=[Fonts\ARIALN.ttf]=], TukuiDB["nameplate"].fontsize, "OUTLINE"
 local glowTexture = TukuiDB["media"].glowTex
 
 local backdrop = {
@@ -84,15 +84,15 @@ local updatePlate = function(self)
 
 	self.healthBar:ClearAllPoints()
 	self.healthBar:SetPoint("CENTER", self.healthBar:GetParent())
-	self.healthBar:SetHeight(TukuiDB:Scale(7))
-	self.healthBar:SetWidth(TukuiDB:Scale(110))
+	self.healthBar:SetHeight(TukuiDB:Scale(TukuiDB["nameplate"].healthheight))
+	self.healthBar:SetWidth(TukuiDB:Scale(TukuiDB["nameplate"].healthwidth))
 
 	self.healthBar.hpBackground:SetVertexColor(self.r * 0.20, self.g * 0.20, self.b * 0.20)
 
 	self.castBar:ClearAllPoints()
 	self.castBar:SetPoint("TOP", self.healthBar, "BOTTOM", 0, TukuiDB:Scale(-4))
-	self.castBar:SetHeight(TukuiDB:Scale(5))
-	self.castBar:SetWidth(TukuiDB:Scale(110))
+	self.castBar:SetHeight(TukuiDB:Scale(TukuiDB["nameplate"].castheight))
+	self.castBar:SetWidth(TukuiDB:Scale(TukuiDB["nameplate"].healthwidth))
 
 	self.highlight:ClearAllPoints()
 	self.highlight:SetAllPoints(self.healthBar)
@@ -288,7 +288,7 @@ end
 
 local numKids = 0
 local lastUpdate = 0
-tNamePlates:SetScript("OnUpdate", function(self, elapsed)
+tNamePlates.eventFrame:SetScript("OnUpdate", function(self, elapsed)
 	lastUpdate = lastUpdate + elapsed
 
 	if lastUpdate > 0.05 then

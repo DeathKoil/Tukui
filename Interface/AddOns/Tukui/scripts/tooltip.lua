@@ -48,7 +48,7 @@ local function defaultPosition(tt, parent)
 	else
 		tt:ClearAllPoints()
 		tt:SetOwner(parent, "ANCHOR_NONE")
-		tt:SetPoint("BOTTOMRIGHT", TukuiInfoRight, "TOPRIGHT", 0, TukuiDB:Scale(5))
+		tt:SetPoint("BOTTOMRIGHT", TukuiInfoRight, "TOPRIGHT", 0, TukuiDB:Scale(200))
 	end
 end
 hooksecurefunc("GameTooltip_SetDefaultAnchor", defaultPosition)
@@ -64,7 +64,7 @@ local function OnUpdate(self, ...)
 				self:SetPoint("BOTTOMRIGHT", StuffingFrameBags, "TOPRIGHT", 0, TukuiDB:Scale(4))
 			else
 				self:ClearAllPoints()
-				self:SetPoint("BOTTOMRIGHT", TukuiInfoRight, "TOPRIGHT", 0, TukuiDB:Scale(5))
+				self:SetPoint("BOTTOMRIGHT", TukuiInfoRight, "TOPRIGHT", 0, TukuiDB:Scale(200))
 			end
 		end
 	end
