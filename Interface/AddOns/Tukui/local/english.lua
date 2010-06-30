@@ -151,7 +151,7 @@ tukuilocal.core_autoinv_enable_c = "Autoinvite ON: "
 tukuilocal.core_autoinv_disable = "Autoinvite OFF"
 tukuilocal.core_wf_unlock = "WatchFrame unlock"
 tukuilocal.core_wf_lock = "WatchFrame lock"
-tukuilocal.core_welcome1 = "Welcome on |cffC495DDTukui|r, version "
+tukuilocal.core_welcome1 = "Welcome to |cffC495DDTukui - DeathKoil's Edit|r, v"
 tukuilocal.core_welcome2 = "Type |cff00FFFF/uihelp|r for more info or visit www.tukui.org"
 
 tukuilocal.core_uihelp1 = "|cff00ff00General Slash Commands|r"

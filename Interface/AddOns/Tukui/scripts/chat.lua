@@ -93,7 +93,7 @@ function TukuiDB.SetupChat()
 	for i = 1, NUM_CHAT_WINDOWS do
 		_G["ChatFrame"..i]:SetClampRectInsets(0,0,0,0)
 		_G["ChatFrame"..i]:SetWidth(TukuiDB:Scale(TukuiDB["panels"].tinfowidth -7))
-		_G["ChatFrame"..i]:SetHeight(TukuiDB:Scale(120))
+		_G["ChatFrame"..i]:SetHeight(TukuiDB:Scale(116))
 			
 		-- Hide chat buttons
 		_G["ChatFrame"..i.."ButtonFrameUpButton"]:Hide()
