@@ -146,7 +146,7 @@ function TukuiDB.SetupChat()
 				
 	-- Position the general chat frame
 	ChatFrame1:ClearAllPoints()
-	ChatFrame1:SetPoint("BOTTOMLEFT", TukuiInfoLeft, "TOPLEFT", TukuiDB:Scale(0), TukuiDB:Scale(3))
+	ChatFrame1:SetPoint("BOTTOMLEFT", TukuiInfoLeft, "TOPLEFT", TukuiDB:Scale(5), TukuiDB:Scale(10))
 		
 	-- Position the chatframe 4
 	ChatFrame4:ClearAllPoints()
