@@ -1,6 +1,6 @@
 -- credits : Caellian - CaelNamePlates !
 
---if not TukuiDB["nameplate"].enable == true then return end
+if not TukuiDB["nameplate"].enable == true then return end
 
 local tNamePlates = CreateFrame("Frame", nil, UIParent)
 tNamePlates:SetScript("OnEvent", function(self, event, ...) self[event](self, ...) end)
