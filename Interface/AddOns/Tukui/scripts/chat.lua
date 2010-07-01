@@ -89,12 +89,12 @@ GeneralDockManagerOverflowButton:Hide()
 function TukuiDB.SetupChat()
 	ChatFrameMenuButton:Hide()
 	ChatFrameMenuButton:SetScript("OnShow", function(self) self:Hide() end)
-				
+
 	for i = 1, NUM_CHAT_WINDOWS do
 		_G["ChatFrame"..i]:SetClampRectInsets(0,0,0,0)
 		_G["ChatFrame"..i]:SetWidth(TukuiDB:Scale(TukuiDB["panels"].tinfowidth -7))
 		_G["ChatFrame"..i]:SetHeight(TukuiDB:Scale(116))
-			
+
 		-- Hide chat buttons
 		_G["ChatFrame"..i.."ButtonFrameUpButton"]:Hide()
 		_G["ChatFrame"..i.."ButtonFrameDownButton"]:Hide()
@@ -109,7 +109,7 @@ function TukuiDB.SetupChat()
 		_G["ChatFrame"..i.."ButtonFrameMinimizeButton"]:SetScript("OnShow", function(self) self:Hide() end)
 		_G["ChatFrame"..i.."ResizeButton"]:SetScript("OnShow", function(self) self:Hide() end)
 		_G["ChatFrame"..i.."ButtonFrame"]:SetScript("OnShow", function(self) self:Hide() end)
-		
+
 		-- Hide chat textures backdrop
 		for j = 1, #CHAT_FRAME_TEXTURES do
 			_G["ChatFrame"..i..CHAT_FRAME_TEXTURES[j]]:SetTexture(nil)
@@ -117,14 +117,14 @@ function TukuiDB.SetupChat()
 
 		-- Stop the chat frame from fading out
 		_G["ChatFrame"..i]:SetFading(false)
-		
+
 		-- Change the chat frame font 
 		_G["ChatFrame"..i]:SetFont(TukuiDB["chat"].font, TukuiDB["chat"].fontsize)
-		
+
 		_G["ChatFrame"..i]:SetFrameStrata("LOW")
 		_G["ChatFrame"..i]:SetMovable(true)
 		_G["ChatFrame"..i]:SetUserPlaced(true)
-		
+
 		-- Texture and align the chat edit box
 		local editbox = _G["ChatFrame"..i.."EditBox"]
 		local left, mid, right = select(6, editbox:GetRegions())
@@ -132,26 +132,26 @@ function TukuiDB.SetupChat()
 		editbox:ClearAllPoints();
 		editbox:SetPoint("TOPLEFT", TukuiInfoLeft, TukuiDB:Scale(2), TukuiDB:Scale(-2))
 		editbox:SetPoint("BOTTOMRIGHT", TukuiInfoLeft, TukuiDB:Scale(-2), TukuiDB:Scale(2))
-		
+
 		-- Disable alt key usage
 		editbox:SetAltArrowKeyMode(false)		
 	end
-	
+
 	-- Remember last channel
 	ChatTypeInfo.WHISPER.sticky = 1
 	ChatTypeInfo.BN_WHISPER.sticky = 1
 	ChatTypeInfo.OFFICER.sticky = 1
 	ChatTypeInfo.RAID_WARNING.sticky = 1
 	ChatTypeInfo.CHANNEL.sticky = 1
-				
+
 	-- Position the general chat frame
 	ChatFrame1:ClearAllPoints()
 	ChatFrame1:SetPoint("BOTTOMLEFT", TukuiInfoLeft, "TOPLEFT", TukuiDB:Scale(5), TukuiDB:Scale(10))
-		
+
 	-- Position the chatframe 4
 	ChatFrame4:ClearAllPoints()
 	ChatFrame4:SetPoint("BOTTOMRIGHT", TukuiInfoRight, "TOPRIGHT", 0, TukuiDB:Scale(3))
-	
+
 	-- Align the text to the right on cf4
 	ChatFrame4:SetJustifyH("RIGHT")
 end
@@ -173,11 +173,11 @@ function CHAT_MSG_SYSTEM(...)
 	local login = select(3, find(arg1, "^|Hplayer:(.+)|h%[(.+)%]|h has come online."))
 	local classColor = "999999"
 	local foundColor = true
-			
+
 	if login then
 		local found = false
 		if GetNumFriends() > 0 then ShowFriends() end
-		
+
 		for friendIndex = 1, GetNumFriends() do
 			local friendName, _, class = GetFriendInfo(friendIndex)
 			if friendName == login then
@@ -186,7 +186,7 @@ function CHAT_MSG_SYSTEM(...)
 				break
 			end
 		end
-		
+
 		if not found then
 			if IsInGuild() then GuildRoster() end
 			for guildIndex = 1, GetNumGuildMembers(true) do
@@ -197,9 +197,9 @@ function CHAT_MSG_SYSTEM(...)
 				end
 			end
 		end
-		
+
 	end
-	
+
 	if login then
 		-- Hook the message function
 		local AddMessageOriginal = ChatFrame1.AddMessage
@@ -497,8 +497,9 @@ end
 
 local SoundSys = CreateFrame("Frame")
 SoundSys:RegisterEvent("CHAT_MSG_WHISPER")
+SoundSys:RegisterEvent("CHAT_MSG_BN_WHISPER")
 SoundSys:HookScript("OnEvent", function(self, event, ...)
-	if event == "CHAT_MSG_WHISPER" then
+	if event == "CHAT_MSG_WHISPER" or "CHAT_MSG_BN_WHISPER" then
 		PlaySoundFile(TukuiDB["media"].whisper)
 	end
 end)
