@@ -93,6 +93,7 @@ TukuiDB["actionbar"] = {
 	["petbarY"] = 175, -- vertical position starting from top
 	["petbarZ"] = "BOTTOMRIGHT", -- if we want to change the starting position zone
 	["verticlepetbar"] = false, --do you want a verticle or horizontal pet bar?
+	["showgrid"] = true, -- show grid on empty button
 }
 
 TukuiDB["nameplate"] = {
