@@ -114,10 +114,7 @@ function TukuiDB.TempChatSkin()
 
 				-- Stop the chat frame from fading out
 				_G[chatFrame:GetName()]:SetFading(false)
-				
-				-- Change the chat frame font 
-				_G[chatFrame:GetName()]:SetFont(TukuiDB["chat"].font, TukuiDB["chat"].fontsize)
-				
+								
 				-- Set random stuff
 				_G[chatFrame:GetName()]:SetFrameStrata("LOW")
 				_G[chatFrame:GetName()]:SetMovable(true)
@@ -132,6 +129,7 @@ function TukuiDB.TempChatSkin()
 	end
 end
 hooksecurefunc("FCF_OpenTemporaryWindow", TukuiDB.TempChatSkin)
+
 
 
 
