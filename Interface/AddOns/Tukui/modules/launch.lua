@@ -71,14 +71,9 @@ local function install()
 	FCF_SetLocked(ChatFrame1, 1)
 	FCF_DockFrame(ChatFrame2)
 	FCF_SetLocked(ChatFrame2, 1)
-	FCF_OpenNewWindow("Spam")
+	FCF_OpenNewWindow("Whispers")
 	FCF_SetLocked(ChatFrame3, 1)
 	FCF_DockFrame(ChatFrame3)
-
-	FCF_OpenNewWindow("Loot")
-	FCF_UnDockFrame(ChatFrame4)
-	FCF_SetLocked(ChatFrame4, 1)
-	ChatFrame4:Show()
 	
 	for i = 1, NUM_CHAT_WINDOWS do
 		local chatFrameId = _G["ChatFrame"..i]:GetID()
@@ -86,19 +81,15 @@ local function install()
 		
 		_G["ChatFrame"..i]:SetClampRectInsets(0,0,0,0)
 		_G["ChatFrame"..i]:SetMovable(true)
-		_G["ChatFrame"..i]:SetSize(TukuiDB:Scale(TukuiDB["panels"].tinfowidth + 1), TukuiDB:Scale(111))
+		_G["ChatFrame"..i]:SetSize(TukuiDB:Scale(TukuiDB["panels"].tinfowidth -6), TukuiDB:Scale(111))
 		
 		-- this is the default width and height of tukui chats.
-		SetChatWindowSavedDimensions(chatFrameId, TukuiDB:Scale(TukuiDB["panels"].tinfowidth + 1), TukuiDB:Scale(111))
+		SetChatWindowSavedDimensions(chatFrameId, TukuiDB:Scale(TukuiDB["panels"].tinfowidth -6), TukuiDB:Scale(111))
 		
 		-- move general bottom left or Loot (if found) on right.
 		if i == 1 then
 			_G["ChatFrame"..i]:ClearAllPoints()
-			_G["ChatFrame"..i]:SetPoint("BOTTOMLEFT", TukuiInfoLeft, "TOPLEFT", TukuiDB:Scale(-1), TukuiDB:Scale(6))
-		elseif i == 4 then
-			_G["ChatFrame"..i]:ClearAllPoints()
-			_G["ChatFrame"..i]:SetPoint("BOTTOMRIGHT", TukuiInfoRight, "TOPRIGHT", 0, TukuiDB:Scale(6))
-			_G["ChatFrame"..i]:SetJustifyH("RIGHT")
+			_G["ChatFrame"..i]:SetPoint("BOTTOMLEFT", TukuiInfoLeft, "TOPLEFT", TukuiDB:Scale(3), TukuiDB:Scale(10))
 		end
 				
 		-- save new default position and dimension
@@ -109,11 +100,6 @@ local function install()
 	end
 			
 	ChatFrame_RemoveAllMessageGroups(ChatFrame1)
-	ChatFrame_RemoveChannel(ChatFrame1, "Trade")
-	ChatFrame_RemoveChannel(ChatFrame1, "General")
-	ChatFrame_RemoveChannel(ChatFrame1, "LocalDefense")
-	ChatFrame_RemoveChannel(ChatFrame1, "GuildRecruitment")
-	ChatFrame_RemoveChannel(ChatFrame1, "LookingForGroup")
 	ChatFrame_AddMessageGroup(ChatFrame1, "SAY")
 	ChatFrame_AddMessageGroup(ChatFrame1, "EMOTE")
 	ChatFrame_AddMessageGroup(ChatFrame1, "YELL")
@@ -145,22 +131,13 @@ local function install()
 	ChatFrame_AddMessageGroup(ChatFrame1, "ACHIEVEMENT")
 	ChatFrame_AddMessageGroup(ChatFrame1, "BN_WHISPER")
 	ChatFrame_AddMessageGroup(ChatFrame1, "BN_CONVERSATION")
+	ChatFrame_AddMessageGroup(ChatFrame1, "LOOT")
+	ChatFrame_AddMessageGroup(ChatFrame1, "MONEY")
 				
 	-- Setup the spam chat frame
 	ChatFrame_RemoveAllMessageGroups(ChatFrame3)
-	ChatFrame_AddChannel(ChatFrame3, "Trade")
-	ChatFrame_AddChannel(ChatFrame3, "General")
-	ChatFrame_AddChannel(ChatFrame3, "LocalDefense")
-	ChatFrame_AddChannel(ChatFrame3, "GuildRecruitment")
-	ChatFrame_AddChannel(ChatFrame3, "LookingForGroup")
-			
-	-- Setup the right chat
-	ChatFrame_RemoveAllMessageGroups(ChatFrame4);
-	ChatFrame_AddMessageGroup(ChatFrame4, "COMBAT_XP_GAIN")
-	ChatFrame_AddMessageGroup(ChatFrame4, "COMBAT_HONOR_GAIN")
-	ChatFrame_AddMessageGroup(ChatFrame4, "COMBAT_FACTION_CHANGE")
-	ChatFrame_AddMessageGroup(ChatFrame4, "LOOT")
-	ChatFrame_AddMessageGroup(ChatFrame4, "MONEY")
+	ChatFrame_AddMessageGroup(ChatFrame3, "BN_WHISPER")
+	ChatFrame_AddMessageGroup(ChatFrame3, "WHISPER")
 			
 	-- enable classcolor automatically on login and on each character without doing /configure each time.
 	ToggleChatColorNamesByClassGroup(true, "SAY")
@@ -339,5 +316,3 @@ SlashCmdList["UIHELP"] = UIHelp
 
 SLASH_CONFIGURE1 = "/resetui"
 SlashCmdList.CONFIGURE = function() StaticPopup_Show("INSTALL_UI") end
-
-
