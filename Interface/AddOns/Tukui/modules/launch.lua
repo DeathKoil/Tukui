@@ -132,7 +132,7 @@ local function install()
 	ChatFrame_AddMessageGroup(ChatFrame1, "LOOT")
 	ChatFrame_AddMessageGroup(ChatFrame1, "MONEY")
 				
-	-- Setup the spam chat frame
+	-- Setup the whisper chat frame
 	ChatFrame_RemoveAllMessageGroups(ChatFrame3)
 	ChatFrame_AddMessageGroup(ChatFrame3, "BN_WHISPER")
 	ChatFrame_AddMessageGroup(ChatFrame3, "WHISPER")
