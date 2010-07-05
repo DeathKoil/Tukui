@@ -1,6 +1,6 @@
 ## Interface: 30300
 ## Author: Tukz - Edited by DeathKoil
-## Version: 1.76 (Based on |cffC495DDTukui|r v10.69)
+## Version: 1.77 (Based on |cffC495DDTukui|r v10.70)
 ## Title: Tukui - DeathKoil Edition
 ## Notes: UI of awesomeness!
 ## SavedVariables: TukuiData, TukuiArena
