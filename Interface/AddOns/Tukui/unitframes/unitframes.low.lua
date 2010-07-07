@@ -560,6 +560,7 @@ end
 ------------------------------------------------------------------------
 
 local SetStyle = function(self, unit)
+	self:SetScale(TukuiDB["actionbar"].scale)
 	self.menu = Menu
 	self.colors = colors
 	self:RegisterForClicks("AnyUp")

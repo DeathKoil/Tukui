@@ -77,6 +77,7 @@ TukuiDB["arena"] = {
 }
 
 TukuiDB["actionbar"] = {
+	["scale"] = .82, -- sets the scale of the unit frames
 	["enable"] = true, -- enable tukz action bars
 	["hotkey"] = false, -- enable hotkey display because it was a lot requested
 	["rightbarmouseover"] = false, -- enable right bars on mouse over
