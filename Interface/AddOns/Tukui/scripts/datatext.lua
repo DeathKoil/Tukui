@@ -322,7 +322,7 @@ if db.friends and db.friends > 0 then
 					for i = 1, BNtotal do
 						presenceID, givenName, surname, toonName, toonID, client, isOnline = BNGetFriendInfo(i)
 						if not isOnline then break end
-						if client = "WoW" then
+						if client == "WoW" then
 							local hasFocus, toonName, client, realmName, faction, race, class, guild, zoneName, level= BNGetToonInfo(toonID)
 							GameTooltip:AddDoubleLine("|cffeeeeee"..client.." ("..level.." "..toonName..")|r", "|cffeeeeee"..givenName.." "..surname.."|r")
 						else
