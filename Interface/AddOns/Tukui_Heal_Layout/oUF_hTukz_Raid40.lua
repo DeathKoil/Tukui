@@ -245,6 +245,15 @@ local function CreateStyle(self, unit)
 	self.Health.bg:SetTexture(0.3, 0.3, 0.3)
 	self.Health.bg.multiplier = (0.3)
 	
+	-- Below lines added to show heal comm.
+    self.HealCommBar = CreateFrame('StatusBar', nil, self.Health)
+    self.HealCommBar:SetHeight(0)
+    self.HealCommBar:SetWidth(0)
+    self.HealCommBar:SetStatusBarTexture(self.Health:GetStatusBarTexture():GetTexture())
+    self.HealCommBar:SetStatusBarColor(0, 1, 0, 0.25)
+    self.HealCommBar:SetPoint('LEFT', self.Health, 'LEFT')
+    self.allowHealCommOverflow = false
+	
 	if TukuiDB["unitframes"].classcolor == true then
 		self.Health.colorDisconnected = true
 		self.Health.colorSmooth = true
