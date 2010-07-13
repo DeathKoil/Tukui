@@ -8,5 +8,7 @@
 ## X-oUF: oUF
 
 libs\oUF\oUF.xml
+libs\oUF_HealComm4\oUF_HealComm4.xml
+libs\oUF_HealComm4\oUF_HealComm4.lua
 Tukui.xml
 
