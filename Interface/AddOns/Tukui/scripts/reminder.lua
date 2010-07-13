@@ -5,6 +5,7 @@ if TukuiDB["buffreminder"].enable ~= true then return end
 TukuiDB["buffreminder"].buffs = {
 	PRIEST = {
 		588, -- inner fire
+		27827, -- Spirit of Redemption
 		-- 1243, -- PWF testing. (Learned at lvl 1)
 	},
 	HUNTER = {
