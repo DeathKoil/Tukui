@@ -642,6 +642,7 @@ local SetStyle = function(self, unit)
     self.HealCommBar:SetStatusBarColor(0, 1, 0, 0.25)
     self.HealCommBar:SetPoint('LEFT', self.Health, 'LEFT')
     self.allowHealCommOverflow = false
+	self.HealCommTimeframe = 3
 	
 	if TukuiDB["unitframes"].classcolor == true then
 		self.Health.colorTapping = true
