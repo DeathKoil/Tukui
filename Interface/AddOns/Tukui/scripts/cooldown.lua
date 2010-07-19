@@ -31,20 +31,20 @@ local function classHexColor(unit)
 end
 
 local format = string.format
-local floor = math.floor
+local ceil = math.ceil
 local min = math.min
 
 local function GetFormattedTime(s)
 	if s >= 86400 then
-		return format("%dd", floor(s/86400 + 0.5)), s % 86400
+			return format("%dd", ceil(s / 86400)), s % 86400
 	elseif s >= 3600 then
-		return format("%dh", floor(s/3600 + 0.5)), s % 3600
+			return format("%dh", ceil(s / 3600)), s % 3600
 	elseif s >= 60 then
-		return format("%dm", floor(s/60 + 0.5)), s % 60
+			return format("%dm", ceil(s / 60)), s % 60
 	elseif s <= db.treshold then
-		return format("%.1f", s), s - format("%.1f", s)
+			return format("%.1f", s), s - format("%.1f", s)
 	end
-	return floor(s + 0.5), s - floor(s)
+	return floor(s), s - floor(s)
 end
 
 local function Timer_OnUpdate(self, elapsed)
